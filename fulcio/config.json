@@ -1,0 +1,9 @@
+{
+    "OIDCIssuers": {
+      "mm-idp": {
+        "IssuerURL": "http://localhost:6001",
+        "ClientID": "sigstore",
+        "Type": "email"
+      }
+    }
+ }
