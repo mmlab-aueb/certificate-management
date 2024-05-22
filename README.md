@@ -73,4 +73,17 @@ Add the following lines
  }
  ```
 ### Digital Twin
-You have to install the `jwcrypto` package.
+You have to install the `jwcrypto` package. This can be done using the following
+command
+
+```
+python3 -m pip install jwcrypto
+```
+
+The `dt.py` is configured with a JWK. You can generate a new one using the following
+python script:
+
+```python
+key = jwk.JWK.generate(kty='EC', crv='P-256')
+key.export() 
+```
