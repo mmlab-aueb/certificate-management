@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
 using System.Security.Cryptography;
-using Excid.Staas.Models;
 using Excid.Oidc.Models;
 
 namespace idp.Controllers

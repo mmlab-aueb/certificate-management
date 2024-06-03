@@ -87,3 +87,12 @@ python script:
 key = jwk.JWK.generate(kty='EC', crv='P-256')
 key.export() 
 ```
+
+## Execution
+### OIDC IdP
+Compile and execute the OIDC IdP
+
+```
+dotnet build
+dotnet run
+```

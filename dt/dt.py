@@ -1,5 +1,6 @@
 import time
 import json
+import requests
 from jwcrypto import jwk, jwt
 
 
@@ -36,3 +37,17 @@ jwt_claims={
 assertion = jwt.JWT(header=jwt_header, claims=jwt_claims)
 assertion.make_signed_token( jwk_key)
 print (assertion.serialize())
+
+# Generate access token request
+data={
+    "grant_type":"urn:ietf:params:oauth:grant-type:jwt-bearer",
+    "assertion":assertion.serialize()
+}
+
+headers={
+    "Content-Type":"application/x-www-form-urlencoded"
+}
+
+token_url = "http://localhost:6001/oauth2/token"
+
+request = requests.post(token_url, headers = headers, data = data)
