@@ -48,6 +48,8 @@ headers={
     "Content-Type":"application/x-www-form-urlencoded"
 }
 
-token_url = "http://localhost:6001/oauth2/token"
+print(data)
+token_url = "http://localhost:6001/oauth2/Token"
 
-request = requests.post(token_url, headers = headers, data = data)
+response = requests.post(token_url, headers = headers, data = data)
+print (response.status_code)

@@ -96,3 +96,17 @@ Compile and execute the OIDC IdP
 dotnet build
 dotnet run
 ```
+
+### Fulcio
+Supposedly, the keys generated with the set up step are
+stored in `/etc/fulcio-config/` Fulcio can be started using the 
+following command: 
+
+```
+fulcio serve \
+    --port 6002 \
+    --ca fileca \
+    --fileca-cert=/etc/fulcio-config/fulcio-cert.pem \
+    --fileca-key=/etc/fulcio-config/fulcio-key.pem \
+    --fileca-key-passwd="123456" \
+````    

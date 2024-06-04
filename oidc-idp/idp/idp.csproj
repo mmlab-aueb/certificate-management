@@ -9,6 +9,12 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Development' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Production' " />
   <ItemGroup>
+    <Compile Remove="Models\Sigstore\**" />
+    <Content Remove="Models\Sigstore\**" />
+    <EmbeddedResource Remove="Models\Sigstore\**" />
+    <None Remove="Models\Sigstore\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
@@ -21,14 +27,8 @@
 
   <ItemGroup>
     <None Remove="Models\Sigstore\" />
-    <None Remove="Models\Sigstore\Fulcio\" />
-    <None Remove="Models\Sigstore\Rekor\" />
-    <None Remove="Models\Sigstore\Fulcio\v2\" />
-    <None Remove="Models\Sigstore\Rekor\v1\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\Sigstore\Fulcio\" />
-    <Folder Include="Models\Sigstore\Fulcio\v2\" />
     <Folder Include="wwwroot\assets\" />
   </ItemGroup>
 </Project>
