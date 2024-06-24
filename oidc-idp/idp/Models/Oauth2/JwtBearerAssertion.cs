@@ -17,7 +17,9 @@ namespace Excid.Oauth2.Models
         public long? NotBefore { get; set; } = null;
         public long? IssuedAt { get; set; } = null;
         public string? Id { get; set; } = null;
-        
+        public string? Base64JwtBearerAssertion = null;
+
+
         private JwtSecurityToken? assertion = null;
 
         public JwtBearerAssertion() { }
@@ -33,6 +35,7 @@ namespace Excid.Oauth2.Models
             NotBefore = assertion.Payload.GetValueOrDefault("exp") as long?;
             IssuedAt = assertion.Payload.GetValueOrDefault("iat") as long?;
             Id = assertion.Payload.GetValueOrDefault("jti") as string;
+            Base64JwtBearerAssertion = base64JwtBearerAssertion;
         }
     }
 }

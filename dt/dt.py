@@ -10,6 +10,9 @@ key = jwk.JWK.generate(kty='EC', crv='P-256')
 key.export()
 
 Note that it includes the private key as well
+
+To export in the public key and use in the configuration of IdP use
+key.export_public()
 '''
 
 json_key = json.dumps({

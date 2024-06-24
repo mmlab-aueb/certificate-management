@@ -1,8 +1,8 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+
+using Excid.Security.Authorization;
+using Excid.Security.Trust;
 using Microsoft.AspNetCore.HttpOverrides;
-using Excid.Staas.Security;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,8 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSingleton<IJwtSigner, FileJwtSigner>();
-
+builder.Services.AddSingleton<IJwtBearerAuthorizer, JwtBearerAuthorizer>();
+builder.Services.AddSingleton<IIssuerTrustList, IssuerTrustListFromConfiguration>();
 
 var app = builder.Build();
 
