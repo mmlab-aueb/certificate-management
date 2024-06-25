@@ -2,7 +2,6 @@
  * RFC 7523 JWT Bearer Assertion
  */
 
-using System;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Excid.Oauth2.Models
