@@ -2,6 +2,13 @@ import time
 import json
 import requests
 from jwcrypto import jwk, jwt
+from cryptography import x509
+from cryptography.x509.oid import NameOID
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.backends import default_backend
+import base64
 
 
 '''
@@ -40,7 +47,7 @@ jwt_claims={
 
 assertion = jwt.JWT(header=jwt_header, claims=jwt_claims)
 assertion.make_signed_token( jwk_key)
-print (assertion.serialize())
+
 
 # Generate access token request
 data={
@@ -52,8 +59,38 @@ headers={
     "Content-Type":"application/x-www-form-urlencoded"
 }
 
-print(data)
+
 token_url = "http://localhost:6001/oauth2/Token"
 
 response = requests.post(token_url, headers = headers, data = data)
-print (response.status_code)
+
+if (response.status_code == 200):
+    json_response = json.loads(response.text)
+    print (json_response['id_token'])
+
+'''
+Create a CSR
+'''
+
+
+private_key = ec.generate_private_key(ec.SECP256R1(), default_backend())
+csr = x509.CertificateSigningRequestBuilder().subject_name(x509.Name([
+x509.NameAttribute(NameOID.COMMON_NAME, "dt@cloud.com"),
+])).sign(private_key, hashes.SHA256())
+
+fulcio_request = {
+  "credentials": {
+    "oidcIdentityToken": json_response['id_token']
+  },
+  "certificateSigningRequest":  base64.b64encode(csr.public_bytes(serialization.Encoding.PEM)).decode()
+}
+
+
+headers={
+    "Content-Type":"application/x-www-form-urlencoded"
+}
+
+
+fulcio_url = "http://localhost:6002/"
+
+response = requests.post(fulcio_url + "/api/v2/signingCert", headers = headers, data = data)

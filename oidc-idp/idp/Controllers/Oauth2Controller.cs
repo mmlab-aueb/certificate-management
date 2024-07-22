@@ -1,6 +1,8 @@
 ﻿using Excid.Oauth2.Models;
 using Excid.Security.Authorization;
+using Excid.Staas.Security;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json;
 
 namespace Excid.Oauth2.Controllers
@@ -11,17 +13,22 @@ namespace Excid.Oauth2.Controllers
     {
         private readonly ILogger _logger;
         private readonly IJwtBearerAuthorizer _jwtBearerAuthorizer;
+        private readonly IConfiguration _configuration;
+        private readonly IJwtSigner _jwtSigner;
 
-        public Oauth2Controller( ILogger<Oauth2Controller> logger, IJwtBearerAuthorizer jwtBearerAuthorizer)
+        public Oauth2Controller( ILogger<Oauth2Controller> logger, IJwtBearerAuthorizer jwtBearerAuthorizer, IConfiguration configuration, IJwtSigner jwtSigner)
         {
             _logger = logger;
+            _configuration = configuration;
             _jwtBearerAuthorizer = jwtBearerAuthorizer;
+            _jwtSigner = jwtSigner;
         }
         [HttpGet]
         public IActionResult Index()
         {
             return Ok();
         }
+
         [HttpPost]
         public IActionResult Token([FromForm] TokenRequest? request)
         {
@@ -72,8 +79,9 @@ namespace Excid.Oauth2.Controllers
                     {"email_verified", true },
                     {"email", assertion.Subject }
 
-            };
-                return Ok();
+                };
+             var token = _jwtSigner.GetSignedJWT(jwtpayload);
+             return Ok(JsonSerializer.Serialize( new { id_token = token, token_type = "Bearer", expires_in = 3600 }));
             }
 
             return BadRequest(new { error = "invalid_request" });

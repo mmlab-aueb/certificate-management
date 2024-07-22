@@ -1,6 +1,7 @@
 
 using Excid.Security.Authorization;
 using Excid.Security.Trust;
+using Excid.Staas.Security;
 using Microsoft.AspNetCore.HttpOverrides;
 
 
@@ -12,6 +13,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IJwtBearerAuthorizer, JwtBearerAuthorizer>();
 builder.Services.AddSingleton<IIssuerTrustList, IssuerTrustListFromConfiguration>();
+builder.Services.AddSingleton<IJwtSigner, FileJwtSigner>();
 
 var app = builder.Build();
 
