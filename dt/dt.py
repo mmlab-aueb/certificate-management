@@ -33,7 +33,7 @@ jwt_header = {
         }
 jwt_claims={
     "iss":"http://localhost",
-    "sub":"http://localhost",
+    "sub":"dt@cloud.com",
     "aud":"http://localhost:6001",
     "exp": int(time.time()) + 600 #expire in 10 minutes
 }

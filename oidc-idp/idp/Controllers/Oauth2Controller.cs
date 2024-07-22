@@ -57,6 +57,22 @@ namespace Excid.Oauth2.Controllers
                     return BadRequest(new { error = "invalid_grant" });
                 }
                 _logger.LogInformation(JsonSerializer.Serialize(assertion));
+                /*
+			 * Prepare OIDC token
+			 */
+            var iat = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var exp = DateTimeOffset.UtcNow.AddDays(1).ToUnixTimeSeconds();
+            var iss = _configuration.GetValue<string>("IdP:iss");
+            var jwtpayload = new JwtPayload()
+                {
+                    { "iat", iat },
+                    { "exp", exp },
+                    { "iss", iss ?? ""},
+                    {"aud", "sigstore" },
+                    {"email_verified", true },
+                    {"email", assertion.Subject }
+
+            };
                 return Ok();
             }
 
